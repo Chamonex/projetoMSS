@@ -9,10 +9,10 @@ Estoque
 <P> {{ stock.count }} produto(s) em estoque</P>
 {% for product in stock %}
 <div class="user">
-    <p>name: {{ product.name }}</p>
-    <p>price: {{ product.price }}</p>
-    <p>quantity: {{ product.stock_quantity }}</p>
-    <p>description: {{ product.description }}</p>
+    <p><b>{{ product.name }}</b></p>
+    <p>{{ product.description }}</p>
+    <p>- R${{ product.price }}</p>
+    <p>- em estoque: {{ product.stock_quantity }}</p>
 </div>
 {% endfor %}
 {% endblock %}

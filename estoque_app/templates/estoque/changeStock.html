@@ -1,9 +1,9 @@
 {% extends "estoque/home copy.html" %}
 {% block title %}
-Deletar produto
+Editar Estoque
 {% endblock %}
 {% block content %}
-<p>deletar produto</p>
+<p>Editar Estoque</p>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -14,7 +14,12 @@ Deletar produto
         {% csrf_token %}
         <input type="hidden" name="product_name" value="{{ product.name }}">
         <p><b>{{ product.name }}</b></p>
-        <button type="submit" class="btn btn-danger">Deletar</button>
+        <p>- em estoque: {{ product.stock_quantity }}</p>
+        <label for="new_quantity">Quantidade:</label>
+        <input type="number" name="amount" min="0">
+        <br>
+        <button type="submit" name="action" value="add" class="btn btn-success">Adicionar</button>
+        <button type="submit" name="action" value="subtract" class="btn btn-danger">Subtrair</button>
     </form>
 </div>
 {% endfor %}

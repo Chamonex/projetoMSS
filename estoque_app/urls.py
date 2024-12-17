@@ -34,4 +34,7 @@ urlpatterns = [
 
     # Página de deletar produto
     path("deleteProduct/", views.deleteProduct, name="deleteProduct"),
+
+    # Página para editar estoque
+    path("editStock/", views.changeStock, name="changeStock"),
 ]

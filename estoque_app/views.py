@@ -1,6 +1,5 @@
-import sys
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from estoque_app.models import User, Seller, Manager, Product
 
 
@@ -113,3 +112,33 @@ def deleteProduct(request):
             return HttpResponse(f"Produto {product.name} não encontrado", status=404)
     
     return render(request, "estoque/deleteProduct.html", {"stock": stock})
+
+def changeStock(request):
+    stock = Product.objects.all()
+
+    if request.method == "POST":
+        product_name = request.POST.get('product_name')
+        amount = request.POST.get('amount')
+        action = request.POST.get('action')
+
+        if not (product_name and amount and action):
+            return HttpResponse("Todos os campos são obrigatórios.", status=400)
+
+        try:
+            product = Product.objects.get(name=product_name)
+        except Product.DoesNotExist:
+            return HttpResponse("Produto não encontrado", status=404)
+
+        if action == "add":
+            product.stock_quantity += int(amount)
+        elif action == "subtract":
+            if (product.stock_quantity - int(amount)) < 0:
+                return HttpResponse("Quantidade inválida!", status=400)
+            else:
+                product.stock_quantity -= int(amount)
+        else:
+            return HttpResponse("Ação inválida.", status=400)
+
+        product.save()
+        return redirect("home")
+    return render(request, "estoque/changeStock.html", {"stock": stock})
